@@ -5,6 +5,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { CalendarEvent, Navbar,CalendarModal } from '..';
 import { getMessages, localizer } from '../../helpers';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useUiStore } from '../../hooks';
 
 
 const myEventsList = [
@@ -35,21 +37,24 @@ const evenStyleGetter = (event, start, end, isSelected) =>{
   }
 }
 
-const onDoubleClick = (event)=>{
-  console.log('coble click')
-}
 
-const onSelect = (event)=>{
-  console.log('Click')
-}
-
-const onViewChange = (e)=>{
-  localStorage.setItem('lastViewEvent' ,e )
-}
 
 export const CalendarScreen = () => {
 
-  const [onView, setOnView] = useState(localStorage.getItem('lastViewEvent') || 'month')
+  const { openModalEvent } = useUiStore();
+  const [onView, setOnView] = useState(localStorage.getItem('lastViewEvent') || 'month');
+
+  const onDoubleClick = (event)=>{
+    openModalEvent()
+  }
+  
+  const onSelect = (event)=>{
+    console.log('Click')
+  }
+  
+  const onViewChange = (e)=>{
+    localStorage.setItem('lastViewEvent' ,e )
+  }
 
   return (
     <>
