@@ -24,7 +24,7 @@ const customStyles = {
 };
 export const CalendarModal = () => {
 
-    const { activeEvents } = useCalendarStore();
+    const { activeEvents,startSavingEvent } = useCalendarStore();
     const { isDateModalOpen , onCloseModalEvent } = useUiStore();
     
     const [ isSubmitted, setIsSubmitted ] = useState(false);
@@ -56,7 +56,7 @@ export const CalendarModal = () => {
         })
     }
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
         setIsSubmitted(true);
 
@@ -71,6 +71,10 @@ export const CalendarModal = () => {
         }
 
         if(formValues.title.length === 0) return
+
+       await startSavingEvent( formValues );
+        onCloseModalEvent();
+        setIsSubmitted(false);
 
     }
 

@@ -5,7 +5,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { useState } from 'react';
 
 import { getMessages, localizer } from '../../helpers';
-import { CalendarEvent, Navbar,CalendarModal, FloatActionButton } from '..';
+import { CalendarEvent, Navbar,CalendarModal, FloatActionButton, ButtonDelete } from '..';
 import { useUiStore,useCalendarStore } from '../../hooks';
 
 
@@ -32,6 +32,7 @@ const evenStyleGetter = (event, start, end, isSelected) =>{
 export const CalendarScreen = () => {
 
   const { openModalEvent } = useUiStore();
+  const { hasEventSelected }  = useCalendarStore()
   const [ onView, setOnView ] = useState(localStorage.getItem('lastViewEvent') || 'month');
   const { events,setActiveEvent } = useCalendarStore();
 
@@ -71,6 +72,10 @@ export const CalendarScreen = () => {
 
       <CalendarModal />
           <FloatActionButton />
+          {
+            hasEventSelected &&
+              <ButtonDelete />  
+          }
     </>
   )
 }
