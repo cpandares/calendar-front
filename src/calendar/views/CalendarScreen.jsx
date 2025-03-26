@@ -2,25 +2,15 @@ import { Calendar } from 'react-big-calendar';
 import { addHours } from 'date-fns';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
-import { CalendarEvent, Navbar,CalendarModal } from '..';
-import { getMessages, localizer } from '../../helpers';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useUiStore } from '../../hooks';
+
+import { getMessages, localizer } from '../../helpers';
+import { CalendarEvent, Navbar,CalendarModal, FloatActionButton } from '..';
+import { useUiStore,useCalendarStore } from '../../hooks';
 
 
-const myEventsList = [
-  {
-    title: 'Estudiar',
-    notes: 'Come',
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    user:{
-      name:'Cesar',
-      id: 'abc123'
-    }
-  }
-]
+
+
 
 const evenStyleGetter = (event, start, end, isSelected) =>{
   
@@ -42,14 +32,15 @@ const evenStyleGetter = (event, start, end, isSelected) =>{
 export const CalendarScreen = () => {
 
   const { openModalEvent } = useUiStore();
-  const [onView, setOnView] = useState(localStorage.getItem('lastViewEvent') || 'month');
+  const [ onView, setOnView ] = useState(localStorage.getItem('lastViewEvent') || 'month');
+  const { events,setActiveEvent } = useCalendarStore();
 
-  const onDoubleClick = (event)=>{
+  const onDoubleClick = ()=>{
     openModalEvent()
   }
   
   const onSelect = (event)=>{
-    console.log('Click')
+    setActiveEvent(event)
   }
   
   const onViewChange = (e)=>{
@@ -63,7 +54,7 @@ export const CalendarScreen = () => {
         <Calendar
           culture='es'
           localizer={localizer}
-          events={myEventsList}
+          events={events}
           defaultView={onView}
           startAccessor="start"
           endAccessor="end"
@@ -79,7 +70,7 @@ export const CalendarScreen = () => {
       />
 
       <CalendarModal />
-  
+          <FloatActionButton />
     </>
   )
 }
