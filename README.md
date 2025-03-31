@@ -11,6 +11,15 @@
     npm install
 ```
 
+## Crear el archivo de configuración
+
+```bash
+    cp .env.example .env
+```
+
+## Realiza los cambios necesarios en el archivo .env
+
+
 ## Iniciar el servidor
 
 ```bash
